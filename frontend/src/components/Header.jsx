@@ -1,10 +1,14 @@
 import React from "react";
-import logo from "../assets/openroom-logo-lg.png";
 
 export default function Header(){
     return (
         <header>
-            <img src={logo} />
+            <img 
+                src={require('../assets/openroom-logo-lg.png')} 
+                alt="openroom official logo" 
+                className="h-7 border-2" 
+            />
+            <p className="text-amber-300">ddd</p>
         </header>
     )
 }
