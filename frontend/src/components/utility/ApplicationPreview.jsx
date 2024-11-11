@@ -2,8 +2,8 @@ import React from "react";
 
 export default function ApplicationPreview(props){
     return (
-        <a className="my-2 cursor-pointer">
-            <article className="py-4 px-8 rounded-lg border bg-white font-opensans hover:bg-light-grey">
+        <a className="cursor-pointer">
+            <article className="my-5 py-4 px-8 rounded-lg border bg-white font-opensans hover:bg-light-grey">
                 <div className="flex my-3">
                     <p className="font-bold ml-0 mr-auto">
                         Full Name:

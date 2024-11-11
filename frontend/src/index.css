@@ -20,3 +20,10 @@ body {
       font-bold cursor-pointer font-opensans tracking-wide;
   }
 }
+
+@layer utilities {
+  .results-section {
+    @apply overflow-scroll border-b;
+    max-height: 32em;
+  }
+}
