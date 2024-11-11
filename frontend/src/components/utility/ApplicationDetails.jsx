@@ -30,8 +30,7 @@ export default function ApplicationDetails(props){
                         ))}
                     </div>
                 ))}
-            </div>
-            
+            </div>   
         </section>
     )
 }
