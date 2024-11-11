@@ -1,15 +1,15 @@
 import React from "react";
-import Header from "../Header";
+import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
 import ApplicationDetails from "../utility/ApplicationDetails";
-import Footer from "../Footer";
+import Footer from "../utility/Footer";
 
 export default function ViewApplication(){
     return (
         <div className="flex flex-col">
             <Header />
-            <section className="border-b-2 border-black pb-5 mt-16 mb-6 flex">
-                <h1 className="font-opensans text-3xl font-bold ml-0 mr-auto my-auto">
+            <section className="border-b-2 border-black pb-5 mt-14 mb-6 flex">
+                <h1 className="font-opensans text-2xl font-bold ml-0 mr-auto my-auto">
                     View Application
                 </h1>
                 <MainButton type="back"/>
