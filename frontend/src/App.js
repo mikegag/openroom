@@ -3,9 +3,8 @@ import Landing from "./components/pages/Landing";
 
 export default function App() {
   return (
-    <div>
+    <div className="m-10">
       <Landing />
-      <p className="text-main-purple">test</p>
     </div>
   )
 }

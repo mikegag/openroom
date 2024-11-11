@@ -6,9 +6,8 @@ export default function Header(){
             <img 
                 src={require('../assets/openroom-logo-lg.png')} 
                 alt="openroom official logo" 
-                className="h-7 border-2" 
+                className="w-44" 
             />
-            <p className="text-amber-300">ddd</p>
         </header>
     )
 }
