@@ -1,24 +1,25 @@
 import React from "react";
-import ApplicationDetailsData from "../../../data.json";
+import Data from "../../data.json";
 
 export default function ApplicationDetails(props){
-    const dataSchema = ApplicationDetailsData.ApplicationDetails
+    const dataSchema = Data
     return (
-        <section className="mt-6 bg-light-grey rounded-lg w-full p-4">
+        <section className="mt-6 bg-light-grey rounded-lg w-full p-8">
             <div className="flex">
-                <p className="ml-0 mr-auto">
-                    Submitted: {props.datesubmitted}
+                <p className="ml-0 mr-auto font-bold">
+                    Submitted: 
+                    <span className="font-normal ml-2">{props.datesubmitted}</span>
                 </p>
-                <p className="ml-auto mr-0 rounded-xl bg-light-purple px-6 py-2 text-sm font-bold">
+                <p className="ml-auto mr-0 rounded-2xl bg-light-purple px-4 py-1 text-sm font-semibold tracking-wide text-white">
                     Completed
                 </p>
             </div>
 
-            <div className="flex flex-wrap justify-start mt-10">
+            <div className="flex flex-wrap mt-20">
                 {Object.entries(dataSchema.ApplicationDetails).map(([sectionName, section]) => (
-                    <div key={sectionName} className="flex flex-col items-start">
+                    <div key={sectionName} className="flex flex-col justify-start items-start pr-4 mr-auto">
                         {section.map((item) => (
-                            <p className="font-bold" key={item.label}>
+                            <p className="font-bold my-2" key={item.label}>
                                 {item.label + ": "}
                                 <span className="ml-1 font-normal">
                                     {item.fields.map((field) => (
@@ -30,6 +31,7 @@ export default function ApplicationDetails(props){
                     </div>
                 ))}
             </div>
+            
         </section>
     )
 }

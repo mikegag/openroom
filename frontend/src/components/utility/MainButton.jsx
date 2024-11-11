@@ -13,7 +13,7 @@ export default function MainButton(props){
             </>
             :
             <>
-                <span className="text-2xl my-auto mr-4 h-min font-opensans"> ← </span>
+                <span className="text-2xl my-auto mr-3 h-min font-opensans"> ← </span>
                 <span className="my-auto h-min font-opensans"> Back </span>
             </>
         }

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../Header";
 import MainButton from "../utility/MainButton";
+import ApplicationDetails from "../utility/ApplicationDetails";
 import Footer from "../Footer";
 
 export default function ViewApplication(){
@@ -13,7 +14,23 @@ export default function ViewApplication(){
                 </h1>
                 <MainButton type="back"/>
             </section>
-            
+            <ApplicationDetails 
+                firstname="john"
+                middlename=""
+                lastname="doe"
+                datesubmitted="11/11/23"
+                licensenumber="A1234567"
+                birthdate="1990-05-15"
+                sex="Male"
+                height="6'0"
+                pobox=""
+                unitnumber=""
+                streetnumber="456"
+                streetname="Main Street"
+                city="Toronto"
+                province="Ontario"
+                postalcode="M5A 1A1"
+            />
             <Footer />
         </div>
     )
