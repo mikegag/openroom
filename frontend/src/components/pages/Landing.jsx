@@ -15,7 +15,7 @@ export default function Landing(){
                 <MainButton type="new"/>
             </section>
             {/* results section only applies when a child is present else 'no applications to display' */}
-            <section className="results-section">
+            <section className="results-section min-h-96">
                 <ApplicationPreview type='completed' />
             </section>
             <Footer />
