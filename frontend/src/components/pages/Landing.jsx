@@ -1,10 +1,15 @@
 import React from "react";
+import { useEffect } from "react";
 import Header from "../utility/Header";
 import Footer from "../utility/Footer";
 import MainButton from "../utility/MainButton";
 import ApplicationPreview from "../utility/ApplicationPreview";
 
 export default function Landing(){
+    useEffect(() => {
+        document.title = "Openroom - Dashboard"
+    }, [])
+
     return (
         <div className="flex flex-col">
             <Header />

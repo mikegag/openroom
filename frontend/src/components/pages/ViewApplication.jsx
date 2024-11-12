@@ -1,10 +1,15 @@
 import React from "react";
+import { useEffect } from "react";
 import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
 import ApplicationDetails from "../utility/ApplicationDetails";
 import Footer from "../utility/Footer";
 
 export default function ViewApplication(){
+    useEffect(() => {
+        document.title = "Openroom - View Application"
+    }, [])
+
     return (
         <div className="flex flex-col">
             <Header />
