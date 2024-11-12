@@ -2,21 +2,21 @@
     "ApplicationDetails": {
       "FirstSection": [
         { "label": "Full Name", "fields": ["firstname", "middlename", "lastname"] },
-        { "label": "Driver's License Number", "fields": ["licensenumber"] },
-        { "label": "Date of Birth", "fields": ["birthdate"] },
+        { "label": "Driver's License Number", "fields": ["licenseNumber"] },
+        { "label": "Date of Birth", "fields": ["dob"] },
         { "label": "Sex", "fields": ["sex"] },
         { "label": "Height", "fields": ["height"] }
       ],
       "SecondSection": [
-        { "label": "PO Box", "fields": ["pobox"] },
-        { "label": "Unit Number", "fields": ["unitnumber"] },
-        { "label": "Street Number", "fields": ["streetnumber"] },
-        { "label": "Street Name", "fields": ["streetname"] },
+        { "label": "PO Box", "fields": ["poBox"] },
+        { "label": "Unit Number", "fields": ["unitNumber"] },
+        { "label": "Street Number", "fields": ["streetNumber"] },
+        { "label": "Street Name", "fields": ["streetName"] },
         { "label": "City", "fields": ["city"] }
       ],
       "ThirdSection": [
         { "label": "Province", "fields": ["province"] },
-        { "label": "Postal Code", "fields": ["postalcode"] }
+        { "label": "Postal Code", "fields": ["postalCode"] }
       ]
     }
 }

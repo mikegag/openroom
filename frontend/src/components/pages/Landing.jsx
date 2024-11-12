@@ -24,8 +24,9 @@ export default function Landing(){
             </section>
 
             <section className={`${savedApplications.length > 0 ? "results-section": ""} min-h-96`}>
-                {/* <ApplicationPreview type='completed' /> */}
-                <p className="font-opensans font-medium text-sm mx-auto text-center mt-20">Saved applications will be displayed here.</p>
+                <p className="font-opensans font-medium text-sm mx-auto text-center mt-20">
+                    Saved applications will be displayed here.
+                </p>
             </section>
             <Footer />
         </div>

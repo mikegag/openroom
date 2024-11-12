@@ -8,7 +8,7 @@ export default function ApplicationDetails(props){
             <div className="flex">
                 <p className="ml-0 mr-auto font-bold">
                     Submitted: 
-                    <span className="font-normal ml-2">{props.datesubmitted}</span>
+                    <span className="font-normal ml-2">{props.submitted}</span>
                 </p>
                 <p className="ml-auto mr-0 rounded-2xl bg-light-purple px-4 py-1 text-sm font-semibold tracking-wide text-white">
                     Completed

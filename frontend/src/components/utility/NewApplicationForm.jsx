@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
+    const navigate = useNavigate();
     // Holds state for license number, used for validation checking
     const [licenseNumber, setLicenseNumber] = useState('');
     // Holds state for form data, initialized with empty fields
@@ -23,6 +26,38 @@ export default function NewApplicationForm(props){
         started: GetCurrentDate(),
         submitted: ""
     });
+
+    // Trigger API to save in-progress form attempts only if data exists
+    function handleNavigation(data) {
+        if (Object.keys(data).length > 0) {
+            axios.post('/dashboard/new-application/', data)
+                .then(response => {
+                })
+                .catch(error => {
+                    // Error occurred during submission
+                    console.error('Form submission error', error);
+                });
+        }
+    }
+
+    // Listen for navigation changes
+    useEffect(() => {
+        // Validate formData before submission
+        const validatedData = validateFormData(formData);
+
+        // Listen for specific navigation event
+        const unlisten = navigate((location, action) => {
+            if (action === 'PUSH' || action === 'POP') {
+                // Handle page navigation (when user moves away)
+                handleNavigation(validatedData);
+            }
+        });
+        // Cleanup the navigation listener when the component unmounts
+        return () => {
+            // Unsubscribe from navigation events
+            unlisten();
+        }
+    }, [formData, navigate])
 
     // Update license number input to check for desired length
     function handleLicenseNumberChange(e){
