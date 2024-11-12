@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import GetCurrentDate from "./GetCurrentDate";
 
-export default function NewApplicationForm(){
-    // Hold state for form data, initialized with empty fields
+export default function NewApplicationForm(props){
+    // Holds state for license number, used for validation checking
+    const [licenseNumber, setLicenseNumber] = useState('');
+    // Holds state for form data, initialized with empty fields
     const [formData, setFormData] = useState({
         firstname: "",
         middlename: "",
@@ -17,8 +19,19 @@ export default function NewApplicationForm(){
         streetName: "",
         city: "",
         province: "",
-        postalCode: ""
+        postalCode: "",
+        started: GetCurrentDate(),
+        submitted: ""
     });
+
+    // Update license number input to check for desired length
+    function handleLicenseNumberChange(e){
+        setLicenseNumber(e.target.value);
+    }
+
+    // Define dynamic maxLength and minLength based on input
+    let maxLength = !licenseNumber.includes('-') && licenseNumber.length < 15 ? 15 : 17;
+    let minLength = licenseNumber.includes('-') && licenseNumber.length >= 16 ? 17 : 15;
 
     // Update form data on each input change
     function handleChange(e) {
@@ -33,6 +46,13 @@ export default function NewApplicationForm(){
     function validateFormData(data) {
         const sanitizedData = { ...data };
         for (const key in sanitizedData) {
+            if (key === 'licenseNumber') {
+                // Base Case: User did not include '-', form ensures minimum of 15 characters
+                if (sanitizedData[key].trim().length === 15){
+                    let formattedData = sanitizedData[key].trim()
+                    sanitizedData[key] = formattedData.slice(0,5)+'-'+formattedData.slice(6,11)+'-'+formattedData.slice(12,15)
+                }
+            }
             if (typeof sanitizedData[key] === 'string') {
                 sanitizedData[key] = sanitizedData[key].trim().toUpperCase();
             }
@@ -43,24 +63,16 @@ export default function NewApplicationForm(){
     // Handle form submission
     function submitForm(e) {
         e.preventDefault();
-
         // Validate and sanitize form data
         const validatedData = validateFormData(formData);
-
-        // API call
-        axios.post('/dashboard/new-application', validatedData)
-            .then(response => {
-                //Form submitted successfully
-            })
-            .catch(error => {
-                console.error("Form submission error", error);
-            });
+        // Update parent with submission data
+        props.onSubmit(validatedData);
     }
 
     return (
         <form className="mx-auto mt-6 w-72 lg:w-5/12 flex flex-col items-start font-opensans" onSubmit={submitForm}>
             {/* First Name */}
-            <label className="my-2 font-bold" htmlFor="firstname">
+            <label className="mt-3 mb-2 font-bold" htmlFor="firstname">
                 First Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -75,7 +87,7 @@ export default function NewApplicationForm(){
             />
 
             {/* Middle Name */}
-            <label className="my-2 font-bold" htmlFor="middlename">
+            <label className="mt-3 mb-2 font-bold" htmlFor="middlename">
                 Middle Name
             </label>
             <input
@@ -89,7 +101,7 @@ export default function NewApplicationForm(){
             />
 
             {/* Last Name */}
-            <label className="my-2 font-bold" htmlFor="lastname">
+            <label className="mt-3 mb-2 font-bold" htmlFor="lastname">
                 Last Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -104,7 +116,7 @@ export default function NewApplicationForm(){
             />
 
             {/* Driver's License Number */}
-            <label className="my-2 font-bold" htmlFor="licenseNumber">
+            <label className="mt-3 mb-2 font-bold" htmlFor="licenseNumber">
                 Ontario Driver's License Number <span className="text-red-500">*</span>
             </label>
             <input
@@ -112,17 +124,20 @@ export default function NewApplicationForm(){
                 name="licenseNumber"
                 id="licenseNumber"
                 autoComplete="on"
-                maxLength={17}
-                onChange={handleChange}
+                maxLength={maxLength}
+                minLength={minLength}
+                onBlur={handleChange}
+                onChange={handleLicenseNumberChange}
+                value={licenseNumber}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="e.g. G1234-45674-67890"
                 required
             />
             {/* divider bar */}
-            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-9 mb-5 mx-auto" role="presentation"></div>
+            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-8 mb-2 mx-auto" role="presentation"></div>
 
             {/* Date of Birth */}
-            <label className="my-2 font-bold" htmlFor="dob">
+            <label className="mt-3 mb-2 font-bold" htmlFor="dob">
                 Date of Birth <span className="text-red-500">*</span>
             </label>
             <input
@@ -135,9 +150,9 @@ export default function NewApplicationForm(){
             />
 
             {/* Sex and Height */}
-            <div className="flex justify-center w-full">
-                <div className="relative flex flex-col my-2 mr-auto ml-0">
-                    <label className="my-2 font-bold" htmlFor="sex">
+            <div className="flex justify-center mb-2 w-full">
+                <div className="relative flex flex-col mr-auto ml-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="sex">
                         Sex <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -152,14 +167,14 @@ export default function NewApplicationForm(){
                         <option value="female">Female</option>
                         <option value="not-specified">Not Specified</option>
                     </select>
-                    <span className="absolute inset-y-0 top-10 right-3 flex items-center pointer-events-none">
+                    <span className="absolute inset-y-0 top-11 right-3 flex items-center pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </span>
                 </div>
-                <div className="flex flex-col my-2 ml-auto mr-0">
-                    <label className="my-2 font-bold" htmlFor="height">
+                <div className="flex flex-col ml-auto mr-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="height">
                         Height (cm) <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -174,12 +189,12 @@ export default function NewApplicationForm(){
                 </div>
             </div>
             {/* divider bar */}
-            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-7 mb-3 mx-auto" role="presentation"></div>
+            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-6 mb-2 mx-auto" role="presentation"></div>
 
             {/* Address Information */}
-            <div className="flex justify-center w-full">
-                <div className="flex flex-col my-2 mr-auto ml-0">
-                    <label className="my-2 font-bold" htmlFor="unitNumber">
+            <div className="flex justify-center mt-2 w-full">
+                <div className="flex flex-col mr-auto ml-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="unitNumber">
                         Unit Number
                     </label>
                     <input
@@ -192,8 +207,8 @@ export default function NewApplicationForm(){
                         placeholder="Enter unit number"
                     />
                 </div>
-                <div className="flex flex-col my-2 ml-auto mr-0">
-                    <label className="my-2 font-bold" htmlFor="streetNumber">
+                <div className="flex flex-col ml-auto mr-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="streetNumber">
                         Street Number <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -210,7 +225,7 @@ export default function NewApplicationForm(){
             </div>
 
             {/* PO Box */}
-            <label className="my-2 font-bold" htmlFor="poBox">
+            <label className="mt-3 mb-2 font-bold" htmlFor="poBox">
                 PO Box
             </label>
             <input
@@ -224,7 +239,7 @@ export default function NewApplicationForm(){
             />
 
             {/* Street Name */}
-            <label className="my-2 font-bold" htmlFor="streetName">
+            <label className="mt-3 mb-2 font-bold" htmlFor="streetName">
                 Street Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -239,7 +254,7 @@ export default function NewApplicationForm(){
             />
 
             {/* City */}
-            <label className="my-2 font-bold" htmlFor="city">
+            <label className="mt-3 mb-2 font-bold" htmlFor="city">
                 City <span className="text-red-500">*</span>
             </label>
             <input
@@ -255,8 +270,8 @@ export default function NewApplicationForm(){
 
             <div className="flex justify-center w-full">
                 {/* Province */}
-                <div className="relative flex flex-col my-2 mr-auto ml-0">
-                    <label className="my-2 font-bold" htmlFor="province">
+                <div className="relative flex flex-col mb-2 mr-auto ml-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="province">
                         Province <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -282,7 +297,7 @@ export default function NewApplicationForm(){
                         <option value="yukon">Yukon</option>
                         <option value="nunavut">Nunavut</option>
                     </select>
-                    <span className="absolute inset-y-0 top-10 right-3 flex items-center pointer-events-none">
+                    <span className="absolute inset-y-0 top-11 right-3 flex items-center pointer-events-none">
                         <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
@@ -290,8 +305,8 @@ export default function NewApplicationForm(){
                 </div>
 
                 {/* Postal Code */}
-                <div className="flex flex-col my-2 ml-auto mr-0">
-                    <label className="my-2 font-bold" htmlFor="postalCode">
+                <div className="flex flex-col mb-2 ml-auto mr-0">
+                    <label className="mt-3 mb-2 font-bold" htmlFor="postalCode">
                         Postal Code <span className="text-red-500">*</span>
                     </label>
                     <input

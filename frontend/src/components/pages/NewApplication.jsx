@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
@@ -6,6 +7,23 @@ import NewApplicationForm from "../utility/NewApplicationForm";
 import Footer from "../utility/Footer";
 
 export default function NewApplication(){
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // Prop passed to ApplicationForm child to confirm submission
+    function handleSubmit(data){
+        setIsSubmitting(true);
+        axios.post('/dashboard/new-application/', data)
+            // Successfully submitted form
+            .then(response => {
+                setIsSubmitted(true)
+            })
+            // Error occurred during submission
+            .catch(error => {
+                console.error("Form submission error", error);
+            });
+    }
+
     useEffect(() => {
         document.title = "Openroom - New Application"
     }, [])
@@ -19,14 +37,31 @@ export default function NewApplication(){
                 </h1>
                 <MainButton type="back"/>
             </section>
-            <h2 className="text-xl font-medium text-center mx-auto">
-                Start a new Ontario Driver's License Application.
-            </h2>
-            <p className="text-sm text-center mx-auto">
-                <span className="text-red-500">*</span> indicates a required field.
-            </p>
-            
-            <NewApplicationForm />
+            {isSubmitting ? 
+                (isSubmitted ?
+                    <div className="min-h-96 text-center">
+                        <p className="mt-20 p-4 rounded-xl text-green-700 text-xl mx-auto font-bold">
+                            Application Saved Successfully!
+                        </p>
+                    </div>
+                    :
+                    <div className="min-h-96 text-center">
+                        <p className="mt-20 p-4 rounded-xl text-red-600 text-xl mx-auto font-bold">
+                            Error! Please reload the page or try again.
+                        </p>
+                    </div>
+                )
+            :
+                <>
+                    <h2 className="text-xl font-medium text-center mx-auto">
+                        Start a new Ontario Driver's License Application.
+                    </h2>
+                    <p className="text-sm text-center mx-auto">
+                        <span className="text-red-500">*</span> indicates a required field.
+                    </p>
+                    <NewApplicationForm onSubmit={handleSubmit}/>
+                </>
+            }
             <Footer />
         </div>
     )
