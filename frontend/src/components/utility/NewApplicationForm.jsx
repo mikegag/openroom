@@ -1,25 +1,64 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
 export default function NewApplicationForm(){
-    const [formData, setFormData] = useState()
+    // Hold state for form data, initialized with empty fields
+    const [formData, setFormData] = useState({
+        firstname: "",
+        middlename: "",
+        lastname: "",
+        licenseNumber: "",
+        dob: "",
+        sex: "",
+        height: "",
+        unitNumber: "",
+        streetNumber: "",
+        poBox: "",
+        streetName: "",
+        city: "",
+        province: "",
+        postalCode: ""
+    });
 
-    function handleChange(e){
+    // Update form data on each input change
+    function handleChange(e) {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value })
-        console.log(formData) 
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
     }
 
-    function validateLicenseInput(input){
-
+    // Trim whitespace and Uppercase for each text input
+    function validateFormData(data) {
+        const sanitizedData = { ...data };
+        for (const key in sanitizedData) {
+            if (typeof sanitizedData[key] === 'string') {
+                sanitizedData[key] = sanitizedData[key].trim().toUpperCase();
+            }
+        }
+        return sanitizedData;
     }
 
-    function validatePostalCodeInput(input){
+    // Handle form submission
+    function submitForm(e) {
+        e.preventDefault();
 
+        // Validate and sanitize form data
+        const validatedData = validateFormData(formData);
+
+        // API call
+        axios.post('/dashboard/new-application', validatedData)
+            .then(response => {
+                //Form submitted successfully
+            })
+            .catch(error => {
+                console.error("Form submission error", error);
+            });
     }
-    //sanitize license and postal input
 
     return (
-        <form className="mx-auto mt-6 w-72 lg:w-5/12 flex flex-col items-start font-opensans">
+        <form className="mx-auto mt-6 w-72 lg:w-5/12 flex flex-col items-start font-opensans" onSubmit={submitForm}>
             {/* First Name */}
             <label className="my-2 font-bold" htmlFor="firstname">
                 First Name <span className="text-red-500">*</span>
@@ -73,13 +112,14 @@ export default function NewApplicationForm(){
                 name="licenseNumber"
                 id="licenseNumber"
                 autoComplete="on"
+                maxLength={17}
                 onChange={handleChange}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="e.g. G1234-45674-67890"
                 required
             />
-
-            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-9 mb-5 mx-auto"></div>
+            {/* divider bar */}
+            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-9 mb-5 mx-auto" role="presentation"></div>
 
             {/* Date of Birth */}
             <label className="my-2 font-bold" htmlFor="dob">
@@ -133,8 +173,8 @@ export default function NewApplicationForm(){
                     />
                 </div>
             </div>
-
-            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-7 mb-3 mx-auto"></div>
+            {/* divider bar */}
+            <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-7 mb-3 mx-auto" role="presentation"></div>
 
             {/* Address Information */}
             <div className="flex justify-center w-full">
@@ -258,12 +298,13 @@ export default function NewApplicationForm(){
                         type="text"
                         name="postalCode"
                         id="postalCode"
-                        maxLength="7"
+                        maxLength="6"
+                        minLength={6}
                         required
                         autoComplete="on"
-                        onChange={handleChange}
+                        onBlur={handleChange}
                         className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
-                        placeholder="e.g., A1A 1A1"
+                        placeholder="e.g., A1A1A1"
                     />
                 </div>
             </div>

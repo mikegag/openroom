@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import Header from "../utility/Header";
 import Footer from "../utility/Footer";
@@ -6,8 +6,11 @@ import MainButton from "../utility/MainButton";
 import ApplicationPreview from "../utility/ApplicationPreview";
 
 export default function Landing(){
+    const [savedApplications, setSavedApplications] = useState([])
     useEffect(() => {
         document.title = "Openroom - Dashboard"
+
+        //axios call to load saved applications
     }, [])
 
     return (
@@ -19,9 +22,10 @@ export default function Landing(){
                 </h1>
                 <MainButton type="new"/>
             </section>
-            {/* results section only applies when a child is present else 'no applications to display' */}
-            <section className="results-section min-h-96">
-                <ApplicationPreview type='completed' />
+
+            <section className={`${savedApplications.length > 0 ? "results-section": ""} min-h-96`}>
+                {/* <ApplicationPreview type='completed' /> */}
+                <p className="font-opensans font-medium text-sm mx-auto text-center mt-20">Saved applications will be displayed here.</p>
             </section>
             <Footer />
         </div>
