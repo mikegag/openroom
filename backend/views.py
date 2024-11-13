@@ -67,7 +67,7 @@ class ApplicationCreate(BaseModel):
     lastname: str
     started: str
     submitted: Optional[str]
-    licenseNumber: int
+    licenseNumber: str
     dob: str
     sex: str
     height: int

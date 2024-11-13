@@ -9,7 +9,7 @@ class Application(SQLModel, table=True):
     lastname: str
     started: str  
     submitted: Optional[str] = None 
-    licenseNumber: int
+    licenseNumber: str
     dob: str 
     sex: str
     height: int

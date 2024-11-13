@@ -5,7 +5,7 @@ import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
     const location = useLocation()
-    const hasFormChanged = useRef(false);
+    let hasFormChanged = useRef(false);
     // Initialize formData with either savedData (if provided) or default values
     const [formData, setFormData] = useState({
         firstname: props.savedData?.firstname || "",
@@ -14,9 +14,9 @@ export default function NewApplicationForm(props){
         licenseNumber: props.savedData?.licenseNumber || "",
         dob: props.savedData?.dob || "",
         sex: props.savedData?.sex || "",
-        height: props.savedData?.height || "",
-        unitNumber: props.savedData?.unitNumber || "",
-        streetNumber: props.savedData?.streetNumber || "",
+        height: props.savedData?.height || null,
+        unitNumber: props.savedData?.unitNumber || null,
+        streetNumber: props.savedData?.streetNumber || null,
         poBox: props.savedData?.poBox || "",
         streetName: props.savedData?.streetName || "",
         city: props.savedData?.city || "",
@@ -28,7 +28,7 @@ export default function NewApplicationForm(props){
 
     // Trigger API to save in-progress form attempts only if data exists
     function saveFormProgess(data) {
-        if (Object.keys(data).length > 0) {
+        //if (Object.keys(data).length > 0) {
             axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
                 .then(response => {
                 })
@@ -36,13 +36,13 @@ export default function NewApplicationForm(props){
                     // Error occurred during submission
                     console.error('Form submission error', error);
                 });
-        }
+        //}
     }
 
     // Listen for navigation changes
     useEffect(() => {
         // Validate formData before submission if new data is added
-        if(hasFormChanged){
+        if(hasFormChanged===true){
             const validatedData = validateFormData(formData);
             saveFormProgess(validatedData)
         }
@@ -54,6 +54,7 @@ export default function NewApplicationForm(props){
             ...prevData,
             licenseNumber: e.target.value
         }));
+        hasFormChanged = true;
     }
 
     // Define dynamic maxLength and minLength based on input
@@ -67,7 +68,7 @@ export default function NewApplicationForm(props){
             ...prevData,
             [name]: value
         }));
-        hasFormChanged = true
+        hasFormChanged = true;
     }
 
     // Trim whitespace and Uppercase for each text input
@@ -369,6 +370,7 @@ export default function NewApplicationForm(props){
                         aria-required="true"
                         autoComplete="on"
                         onBlur={handleChange}
+                        onChange={handleChange}
                         value={formData.postalCode}
                         className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                         placeholder="e.g., A1A1A1"

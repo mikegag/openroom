@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState, useParams } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
 import ApplicationDetails from "../utility/ApplicationDetails";
@@ -8,7 +9,7 @@ import NewApplicationForm from "../utility/NewApplicationForm";
 import Footer from "../utility/Footer";
 
 export default function ViewApplication(){
-    const { applicationId } = useParams();
+    const { id } = useParams();
     const [applicationDetails, setApplicationDetails] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,8 +34,8 @@ export default function ViewApplication(){
 
     // Fetch application details using the applicationId from the URL
     useEffect(() => {
-        if (applicationId) {
-          axios.get(`http://127.0.0.1:8000/dashboard/view-application/${applicationId}`)
+        if (id) {
+          axios.get(`http://127.0.0.1:8000/dashboard/view-application/${id}`)
             .then(response => {
                 setApplicationDetails(response.data);
             })
@@ -42,7 +43,7 @@ export default function ViewApplication(){
                 console.error('error retrieving application', error);
             });
         }
-      }, [applicationId])
+      }, [id])
 
     return (
         <div className="flex flex-col">
@@ -69,7 +70,7 @@ export default function ViewApplication(){
                 )
             :
                 <>
-                ({applicationDetails && applicationDetails.submitted ? 
+                {applicationDetails && applicationDetails.submitted ? 
                     <ApplicationDetails
                         id={applicationDetails.id}
                         firstname={applicationDetails.firstname}
@@ -98,7 +99,7 @@ export default function ViewApplication(){
                         </p>
                         <NewApplicationForm onSubmit={handleSubmit} savedData = {applicationDetails}/>
                     </>
-                })
+                }
                 </>
             }
             <Footer />
