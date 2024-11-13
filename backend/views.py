@@ -4,14 +4,14 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from datetime import datetime
 from typing import List
-from backend.models import Application
+from backend.models import Application, PartialApplication
 from backend.database import engine, get_session
 from pydantic import BaseModel
 
 router = APIRouter()
 
 # 1. Endpoint to return all existing applications as a list
-@router.get("/dashboard/", response_model=List[Application])
+@router.get("/dashboard", response_model=List[Application])
 def get_all_applications(session: Session = Depends(get_session)) -> List[Optional[Application]]:
     result = session.execute(select(Application)) 
     applications = result.scalars().all()
@@ -36,6 +36,14 @@ def create_application(application: Application, session: Session = Depends(get_
     # Return the created application with a 201 Created status
     return JSONResponse(content=application.model_dump(), status_code=201)
 
+# 4. Endpoint to create a partial application
+@router.post("/dashboard/partial-application", response_model=PartialApplication)
+def create_application(application: PartialApplication, session: Session = Depends(get_session)):
+    session.add(application)
+    session.commit()
+    session.refresh(application)
+    # Return the created application with a 201 Created status
+    return JSONResponse(content=application.model_dump(), status_code=201)
 
 
 '''

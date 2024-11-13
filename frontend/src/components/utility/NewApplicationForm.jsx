@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
-    const location = useLocation()
-    let hasFormChanged = useRef(false);
     // Initialize formData with either savedData (if provided) or default values
     const [formData, setFormData] = useState({
         firstname: props.savedData?.firstname || "",
@@ -14,9 +11,9 @@ export default function NewApplicationForm(props){
         licenseNumber: props.savedData?.licenseNumber || "",
         dob: props.savedData?.dob || "",
         sex: props.savedData?.sex || "",
-        height: props.savedData?.height || null,
-        unitNumber: props.savedData?.unitNumber || null,
-        streetNumber: props.savedData?.streetNumber || null,
+        height: props.savedData?.height || undefined,
+        unitNumber: props.savedData?.unitNumber || undefined,
+        streetNumber: props.savedData?.streetNumber || undefined,
         poBox: props.savedData?.poBox || "",
         streetName: props.savedData?.streetName || "",
         city: props.savedData?.city || "",
@@ -26,40 +23,18 @@ export default function NewApplicationForm(props){
         submitted: ""
     });
 
-    // Trigger API to save in-progress form attempts only if data exists
-    function saveFormProgess(data) {
-        //if (Object.keys(data).length > 0) {
-            axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
-                .then(response => {
-                })
-                .catch(error => {
-                    // Error occurred during submission
-                    console.error('Form submission error', error);
-                });
-        //}
-    }
-
-    // Listen for navigation changes
+    // save previously stored data in state
     useEffect(() => {
-        // Validate formData before submission if new data is added
-        if(hasFormChanged===true){
-            const validatedData = validateFormData(formData);
-            saveFormProgess(validatedData)
+        // Check localStorage for existing form data when the component mounts
+        const savedData = JSON.parse(localStorage.getItem("formData"));
+        if (savedData) {
+          setFormData(savedData);
         }
-    }, [location])
-
-    // Update license number input to check for desired length
-    function handleLicenseNumberChange(e) {
-        setFormData((prevData) => ({
-            ...prevData,
-            licenseNumber: e.target.value
-        }));
-        hasFormChanged = true;
-    }
+      }, [])
 
     // Define dynamic maxLength and minLength based on input
     let maxLength = formData.licenseNumber.includes('-') ? 17 : 15;
-    let minLength = formData.licenseNumber.includes('-') ? 17 : 15;
+    let minLength = formData.licenseNumber.includes('-')===true ? 17 : 15;
 
     // Update form data on each input change
     function handleChange(e) {
@@ -68,7 +43,8 @@ export default function NewApplicationForm(props){
             ...prevData,
             [name]: value
         }));
-        hasFormChanged = true;
+        const updatedFormData = { ...formData, [name]: value };
+        localStorage.setItem("formData", JSON.stringify(updatedFormData));
     }
 
     // Trim whitespace and Uppercase for each text input
@@ -96,6 +72,8 @@ export default function NewApplicationForm(props){
         const validatedData = validateFormData(formData);
         // Update parent with submission data
         props.onSubmit(validatedData);
+        // Clear localStorage after submission
+        localStorage.removeItem("formData");
     }
 
     return (
@@ -161,7 +139,7 @@ export default function NewApplicationForm(props){
                 maxLength={maxLength}
                 minLength={minLength}
                 onBlur={handleChange}
-                onChange={handleLicenseNumberChange}
+                onChange={handleChange}
                 value={formData.licenseNumber}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="e.g. G1234-45674-67890"

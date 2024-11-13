@@ -12,7 +12,8 @@ def on_startup():
 
 # Define allowed origins (set to "*" for any domain)
 origins = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
 
 # Add CORS middleware to the app

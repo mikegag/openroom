@@ -25,7 +25,7 @@ export default function ViewApplication(){
     // Prop passed to ApplicationForm child to confirm submission
     function handleSubmit(data){
         setIsSubmitting(true);
-        axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
+        axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
             // Successfully submitted form
             .then(response => {
                 setIsSubmitted(true)
@@ -34,6 +34,7 @@ export default function ViewApplication(){
             .catch(error => {
                 console.error("Form submission error", error);
             });
+            
     }
 
     // Fetch application details using the applicationId from the URL

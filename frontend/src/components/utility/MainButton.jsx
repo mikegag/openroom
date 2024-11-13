@@ -12,7 +12,7 @@ export default function MainButton(props){
         {props.type ==='new' ?
             <>
                 <span className="my-auto h-min font-opensans"> New Application </span>
-                <span className="text-2xl my-auto ml-3 h-min font-opensans"> + </span>
+                <span className="text-2xl my-auto ml-3 h-min font-opensans">+</span>
             </>
             :
             <>

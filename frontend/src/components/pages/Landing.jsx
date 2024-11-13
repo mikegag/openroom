@@ -16,7 +16,7 @@ export default function Landing() {
         document.title = "Openroom - Dashboard";
 
         // Start loading when making the API request
-        axios.get('http://127.0.0.1:8000/dashboard/', { withCredentials: true })
+        axios.get('http://127.0.0.1:8000/dashboard', { withCredentials: true })
             .then(response => {
                 setSavedApplications(response.data);
             })
