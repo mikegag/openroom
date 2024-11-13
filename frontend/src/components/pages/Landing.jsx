@@ -4,13 +4,23 @@ import Header from "../utility/Header";
 import Footer from "../utility/Footer";
 import MainButton from "../utility/MainButton";
 import ApplicationPreview from "../utility/ApplicationPreview";
+import axios from "axios";
 
 export default function Landing(){
     const [savedApplications, setSavedApplications] = useState([])
     useEffect(() => {
         document.title = "Openroom - Dashboard"
 
-        //axios call to load saved applications
+        axios.get('http://127.0.0.1:8000/dashboard/', {
+            withCredentials: true
+        })
+            .then(response=>{
+                setSavedApplications(response)
+            })
+            // Error occurred during submission
+            .catch(error => {
+                console.error("Error retrieving applications", error);
+            });
     }, [])
 
     return (
@@ -24,9 +34,23 @@ export default function Landing(){
             </section>
 
             <section className={`${savedApplications.length > 0 ? "results-section": ""} min-h-96`}>
-                <p className="font-opensans font-medium text-sm mx-auto text-center mt-20">
-                    Saved applications will be displayed here.
-                </p>
+                {savedApplications.length > 0 ?
+                    savedApplications.map((app,index)=>(
+                        <div key={index}>
+                            <ApplicationPreview 
+                                firstname={app.firstname}
+                                licenseNumber={app.licenseNumber}
+                                id={app.id}
+                                started={app.started}
+                                submitted={app.submitted}
+                            />
+                        </div>
+                    ))
+                :
+                    <p className="font-opensans font-medium text-sm mx-auto text-center mt-20">
+                        Saved applications will be displayed here.
+                    </p>
+                }
             </section>
             <Footer />
         </div>

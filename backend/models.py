@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
 
+# Application model based on Frontend form
 class Application(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     firstname: str
