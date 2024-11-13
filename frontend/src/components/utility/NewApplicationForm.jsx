@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
-    const navigate = useNavigate();
-    // Holds state for license number, used for validation checking
-    const [licenseNumber, setLicenseNumber] = useState('');
-    // Holds state for form data, initialized with empty fields
+    const location = useLocation()
+    // Initialize formData with either savedData (if provided) or default values
     const [formData, setFormData] = useState({
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        licenseNumber: "",
-        dob: "",
-        sex: "",
-        height: "",
-        unitNumber: "",
-        streetNumber: "",
-        poBox: "",
-        streetName: "",
-        city: "",
-        province: "",
-        postalCode: "",
-        started: GetCurrentDate(),
+        firstname: props.savedData?.firstname || "",
+        middlename: props.savedData?.middlename || "",
+        lastname: props.savedData?.lastname || "",
+        licenseNumber: props.savedData?.licenseNumber || "",
+        dob: props.savedData?.dob || "",
+        sex: props.savedData?.sex || "",
+        height: props.savedData?.height || "",
+        unitNumber: props.savedData?.unitNumber || "",
+        streetNumber: props.savedData?.streetNumber || "",
+        poBox: props.savedData?.poBox || "",
+        streetName: props.savedData?.streetName || "",
+        city: props.savedData?.city || "",
+        province: props.savedData?.province || "",
+        postalCode: props.savedData?.postalCode || "",
+        started: props.savedData?.started || GetCurrentDate(),
         submitted: ""
     });
 
     // Trigger API to save in-progress form attempts only if data exists
-    function handleNavigation(data) {
+    function saveFormProgess(data) {
         if (Object.keys(data).length > 0) {
             axios.post('/dashboard/new-application/', data)
                 .then(response => {
@@ -44,29 +42,20 @@ export default function NewApplicationForm(props){
     useEffect(() => {
         // Validate formData before submission
         const validatedData = validateFormData(formData);
-
-        // Listen for specific navigation event
-        const unlisten = navigate((location, action) => {
-            if (action === 'PUSH' || action === 'POP') {
-                // Handle page navigation (when user moves away)
-                handleNavigation(validatedData);
-            }
-        });
-        // Cleanup the navigation listener when the component unmounts
-        return () => {
-            // Unsubscribe from navigation events
-            unlisten();
-        }
-    }, [formData, navigate])
+        saveFormProgess(validatedData)
+    }, [location])
 
     // Update license number input to check for desired length
-    function handleLicenseNumberChange(e){
-        setLicenseNumber(e.target.value);
+    function handleLicenseNumberChange(e) {
+        setFormData((prevData) => ({
+            ...prevData,
+            licenseNumber: e.target.value
+        }));
     }
 
     // Define dynamic maxLength and minLength based on input
-    let maxLength = !licenseNumber.includes('-') && licenseNumber.length < 15 ? 15 : 17;
-    let minLength = licenseNumber.includes('-') && licenseNumber.length >= 16 ? 17 : 15;
+    let maxLength = formData.licenseNumber.includes('-') ? 17 : 15;
+    let minLength = formData.licenseNumber.includes('-') ? 17 : 15;
 
     // Update form data on each input change
     function handleChange(e) {
@@ -115,10 +104,12 @@ export default function NewApplicationForm(props){
                 name="firstname"
                 id="firstname"
                 autoComplete="on"
+                value={formData.firstname}
                 onChange={handleChange}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter your First Name"
                 required
+                aria-required="true"
             />
 
             {/* Middle Name */}
@@ -131,6 +122,7 @@ export default function NewApplicationForm(props){
                 id="middlename"
                 autoComplete="on"
                 onChange={handleChange}
+                value={formData.middlename}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter your Middle Name"
             />
@@ -145,9 +137,11 @@ export default function NewApplicationForm(props){
                 id="lastname"
                 autoComplete="on"
                 onChange={handleChange}
+                value={formData.lastname}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter your Last Name"
                 required
+                aria-required="true"
             />
 
             {/* Driver's License Number */}
@@ -163,10 +157,11 @@ export default function NewApplicationForm(props){
                 minLength={minLength}
                 onBlur={handleChange}
                 onChange={handleLicenseNumberChange}
-                value={licenseNumber}
+                value={formData.licenseNumber}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="e.g. G1234-45674-67890"
                 required
+                aria-required="true"
             />
             {/* divider bar */}
             <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-8 mb-2 mx-auto" role="presentation"></div>
@@ -180,8 +175,10 @@ export default function NewApplicationForm(props){
                 name="dob"
                 id="dob"
                 onChange={handleChange}
+                value={formData.dob}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 required
+                aria-required="true"
             />
 
             {/* Sex and Height */}
@@ -194,7 +191,9 @@ export default function NewApplicationForm(props){
                         name="sex"
                         id="sex"
                         required
+                        aria-required="true"
                         onChange={handleChange}
+                        value={formData.sex}
                         className="appearance-none border p-3 w-56 pr-3 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                     >
                         <option value="" hidden>Not specified</option>
@@ -217,7 +216,9 @@ export default function NewApplicationForm(props){
                         name="height"
                         id="height"
                         required
+                        aria-required="true"
                         onChange={handleChange}
+                        value={formData.height}
                         className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                         placeholder="Enter height in cm"
                     />
@@ -238,6 +239,7 @@ export default function NewApplicationForm(props){
                         id="unitNumber"
                         autoComplete="on"
                         onChange={handleChange}
+                        value={formData.unitNumber}
                         className="border p-3 rounded-lg w-56 cursor-pointer focus:outline-1 focus:outline-light-purple"
                         placeholder="Enter unit number"
                     />
@@ -251,8 +253,10 @@ export default function NewApplicationForm(props){
                         name="streetNumber"
                         id="streetNumber"
                         required
+                        aria-required="true"
                         autoComplete="on"
                         onChange={handleChange}
+                        value={formData.streetNumber}
                         className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                         placeholder="Enter street number"
                     />
@@ -269,6 +273,7 @@ export default function NewApplicationForm(props){
                 id="poBox"
                 autoComplete="on"
                 onChange={handleChange}
+                value={formData.poBox}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter PO Box"
             />
@@ -282,8 +287,10 @@ export default function NewApplicationForm(props){
                 name="streetName"
                 id="streetName"
                 required
+                aria-required="true"
                 autoComplete="on"
                 onChange={handleChange}
+                value={formData.streetName}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter street name"
             />
@@ -297,8 +304,10 @@ export default function NewApplicationForm(props){
                 name="city"
                 id="city"
                 required
+                aria-required="true"
                 autoComplete="on"
                 onChange={handleChange}
+                value={formData.city}
                 className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                 placeholder="Enter city"
             />
@@ -313,8 +322,10 @@ export default function NewApplicationForm(props){
                         name="province"
                         id="province"
                         required
+                        aria-required="true"
                         autoComplete="on"
                         onChange={handleChange}
+                        value={formData.province}
                         className="appearance-none border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                     >
                         {/* Province options */}
@@ -351,8 +362,10 @@ export default function NewApplicationForm(props){
                         maxLength="6"
                         minLength={6}
                         required
+                        aria-required="true"
                         autoComplete="on"
                         onBlur={handleChange}
+                        value={formData.postalCode}
                         className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
                         placeholder="e.g., A1A1A1"
                     />

@@ -9,7 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/dashboard" element={<Landing/>} />
-        <Route path="/dashboard/view-application" element={<ViewApplication/>} />
+        <Route path="/dashboard/view-application-:id" element={<ViewApplication/>} />
         <Route path="/dashboard/new-application" element={<NewApplication/>} />
       </Routes>
     </BrowserRouter>
