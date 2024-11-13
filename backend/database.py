@@ -1,12 +1,12 @@
-from sqlmodel import SQLModel, create_engine, Session
+from sqlmodel import SQLModel, create_engine
+from sqlalchemy import create_engine
 
-DATABASE_URL = "sqlite:///./database.db"
-engine = create_engine(DATABASE_URL, echo=True)
+# SQLite database URL
+DATABASE_URL = "sqlite:///backend/test.db"  # Change as needed for your path
 
-# Initialize the database
-def init_db():
+# Create engine for SQLite
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+# Create tables in the database
+def create_db_and_tables():
     SQLModel.metadata.create_all(bind=engine)
-
-def get_session():
-    with Session(engine) as session:
-        yield session
