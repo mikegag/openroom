@@ -15,7 +15,7 @@ export default function Landing(){
             withCredentials: true
         })
             .then(response=>{
-                setSavedApplications(response)
+                setSavedApplications(response.data)
             })
             // Error occurred during submission
             .catch(error => {
@@ -39,6 +39,8 @@ export default function Landing(){
                         <div key={index}>
                             <ApplicationPreview 
                                 firstname={app.firstname}
+                                middelname={app.middelname}
+                                lastname={app.lastname}
                                 licenseNumber={app.licenseNumber}
                                 id={app.id}
                                 started={app.started}

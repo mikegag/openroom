@@ -20,7 +20,7 @@ export default function ViewApplication(){
     // Prop passed to ApplicationForm child to confirm submission
     function handleSubmit(data){
         setIsSubmitting(true);
-        axios.post('/dashboard/new-application/', data)
+        axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
             // Successfully submitted form
             .then(response => {
                 setIsSubmitted(true)
@@ -34,7 +34,7 @@ export default function ViewApplication(){
     // Fetch application details using the applicationId from the URL
     useEffect(() => {
         if (applicationId) {
-          axios.get(`/dashboard/view-application/${applicationId}`)
+          axios.get(`http://127.0.0.1:8000/dashboard/view-application/${applicationId}`)
             .then(response => {
                 setApplicationDetails(response.data);
             })
@@ -70,7 +70,8 @@ export default function ViewApplication(){
             :
                 <>
                 ({applicationDetails && applicationDetails.submitted ? 
-                    <ApplicationDetails 
+                    <ApplicationDetails
+                        id={applicationDetails.id}
                         firstname={applicationDetails.firstname}
                         middlename={applicationDetails.middlename}
                         lastname={applicationDetails.lastname}

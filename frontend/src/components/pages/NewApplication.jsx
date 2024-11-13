@@ -13,7 +13,7 @@ export default function NewApplication(){
     // Prop passed to ApplicationForm child to confirm submission
     function handleSubmit(data){
         setIsSubmitting(true);
-        axios.post('/dashboard/new-application/', data)
+        axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
             // Successfully submitted form
             .then(response => {
                 setIsSubmitted(true)

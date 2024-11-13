@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
     const location = useLocation()
+    const hasFormChanged = useRef(false);
     // Initialize formData with either savedData (if provided) or default values
     const [formData, setFormData] = useState({
         firstname: props.savedData?.firstname || "",
@@ -28,7 +29,7 @@ export default function NewApplicationForm(props){
     // Trigger API to save in-progress form attempts only if data exists
     function saveFormProgess(data) {
         if (Object.keys(data).length > 0) {
-            axios.post('/dashboard/new-application/', data)
+            axios.post('http://127.0.0.1:8000/dashboard/new-application/', data)
                 .then(response => {
                 })
                 .catch(error => {
@@ -40,9 +41,11 @@ export default function NewApplicationForm(props){
 
     // Listen for navigation changes
     useEffect(() => {
-        // Validate formData before submission
-        const validatedData = validateFormData(formData);
-        saveFormProgess(validatedData)
+        // Validate formData before submission if new data is added
+        if(hasFormChanged){
+            const validatedData = validateFormData(formData);
+            saveFormProgess(validatedData)
+        }
     }, [location])
 
     // Update license number input to check for desired length
@@ -64,6 +67,7 @@ export default function NewApplicationForm(props){
             ...prevData,
             [name]: value
         }));
+        hasFormChanged = true
     }
 
     // Trim whitespace and Uppercase for each text input
