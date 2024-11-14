@@ -4,12 +4,15 @@ import validateFormData from "../utility/ValidateFormData";
 import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
 import NewApplicationForm from "../utility/NewApplicationForm";
+import Notification from "../utility/Notification";
 import Footer from "../utility/Footer";
 
 // Lazy-load the LoadingAnimation component
 const LoadingAnimation = React.lazy(() => import("../utility/LoadingAnimation"));
 
 export default function NewApplication() {
+    // Determines when to display notification after user attempts to save form progress
+    const [saveAttempt, setSaveAttempt] = useState({ attempted: false, success: false });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loadingConfirmation, setLoadingConfirmation] = useState(true);
@@ -39,7 +42,6 @@ export default function NewApplication() {
     function saveProgress() {
         // Get form data from localStorage
         const savedData = localStorage.getItem("formData");
-      
         if (savedData) {
             // Parse the stored JSON string into an object
             const data = JSON.parse(savedData);
@@ -47,19 +49,29 @@ export default function NewApplication() {
             const validatedData = validateFormData(data)
             // Trigger API to save in-progress form attempts
             axios.post('http://127.0.0.1:8000/dashboard/partial-application', validatedData, { withCredentials: true })
-                .then(response => {})
+                .then(response => {
+                    setSaveAttempt({ attempted: true, success: true });
+                })
                 .catch(error => {
                     // Handle error during submission
                     console.error('Form submission error:', error);
+                    setSaveAttempt({ attempted: true, success: false });
             });
         } else {
           console.log('No form data found in localStorage.');
         }
-      }
+        setTimeout(() => {
+            // Reset notification
+            setSaveAttempt({ attempted: false, success: false });
+        }, 1500);
+    }
     
 
     return (
         <div className="flex flex-col font-opensans">
+            {saveAttempt.attempted && (
+                <Notification type={saveAttempt.success ? "success" : "fail"} />
+            )}
             <Header />
             <section className="border-b-2 border-black pb-5 mt-14 mb-8 flex">
                 <h1 className="font-opensans text-2xl font-bold ml-0 mr-auto my-auto">
