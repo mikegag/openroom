@@ -1,4 +1,4 @@
-Redesigned version of a standard Ontario Driver's License Application form (first section). Built with React.js, Tailwind CSS, FastAPI, SQLModel, and SQLite.
+A redesigned version of a standard Ontario Driver's License Application form (first section). Built with React.js, Tailwind CSS, FastAPI, SQLModel, and SQLite.
 
 ### `npm start` (Frontend)
 

@@ -20,7 +20,7 @@ def get_all_applications(session: Session = Depends(get_session)) -> List[Option
 
 # 2. Endpoint to return a specific application with a matching id
 @router.get("/dashboard/view-application/{id}", response_model=Application)
-def get_application_by_id(id: int, session: Session = Depends(get_session)):
+def get_application_by_id(id: int, session: Session = Depends(get_session)) -> Application:
     application = session.get(Application, id)
     if application:
         return application
@@ -30,7 +30,7 @@ def get_application_by_id(id: int, session: Session = Depends(get_session)):
 
 # 3. Endpoint to create a new application and set the submitted field with the current date
 @router.post("/dashboard/new-application", response_model=Application)
-def create_or_update_application(application: Application, session: Session = Depends(get_session)):
+def create_or_update_application(application: Application, session: Session = Depends(get_session)) -> JSONResponse:
     # Look for an existing application by a unique identifier
     existing_application = session.query(Application).filter_by(id=application.id).first()
     
@@ -55,7 +55,7 @@ def create_or_update_application(application: Application, session: Session = De
 
 # 4. Endpoint to save a partial application
 @router.post("/dashboard/partial-application", response_model=Application)
-def save_partial_application(application: Application, session: Session = Depends(get_session)):
+def save_partial_application(application: Application, session: Session = Depends(get_session)) -> JSONResponse:
     session.add(application)
     session.commit()
     session.refresh(application)

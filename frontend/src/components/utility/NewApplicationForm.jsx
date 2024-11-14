@@ -13,7 +13,7 @@ export default function NewApplicationForm(props){
         licenseNumber: props.savedData?.licenseNumber || "",
         dob: props.savedData?.dob || "",
         sex: props.savedData?.sex || "",
-        height: props.savedData?.height || undefined,
+        height: props.savedData?.height || "",
         unitNumber: props.savedData?.unitNumber || undefined,
         streetNumber: props.savedData?.streetNumber || undefined,
         poBox: props.savedData?.poBox || "",
