@@ -74,12 +74,12 @@ export default function NewApplication() {
             )}
             <Header />
             <section className="border-b-2 border-black pb-5 mt-14 mb-8 flex">
-                <h1 className="font-opensans text-2xl font-bold ml-0 mr-auto my-auto">
+                <h1 className="main-title">
                     New Application
                 </h1>
                 <MainButton type="back" />
                 {!isSubmitting ? 
-                    <button className="new-application-btn ml-2" onClick={saveProgress}>Save </button>
+                    <button className="new-application-btn ml-2" onClick={saveProgress}>Save</button>
                 : 
                     <></>
                 }
@@ -107,10 +107,10 @@ export default function NewApplication() {
                 </Suspense>
             ) : (
                 <>
-                    <h2 className="text-xl font-medium text-center mx-auto">
+                    <h2 className="text-base lg:text-xl font-medium text-center mx-auto">
                         Start a new Ontario Driver's License Application.
                     </h2>
-                    <p className="text-sm text-center mx-auto">
+                    <p className="text-xs lg:text-sm text-center mx-auto">
                         <span className="text-red-500">*</span> indicates a required field.
                     </p>
                     <NewApplicationForm onSubmit={handleSubmit} />

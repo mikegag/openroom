@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  margin: 2rem 4rem;
+  @apply mx-4 my-4 md:mx-20 md:my-8;
   background-color: white;
 
 }
@@ -17,11 +17,14 @@ body {
 
 @layer components {
   .new-application-btn{
-    @apply rounded-lg px-4 py-1.5 bg-main-purple hover:bg-dark-purple text-white 
+    @apply rounded-lg px-2.5 py-1 lg:px-4 lg:py-1.5 text-sm lg:text-base bg-main-purple hover:bg-dark-purple text-white 
       font-bold font-opensans tracking-wide cursor-pointer;
   }
   .form-input{
     @apply border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple;
+  }
+  .main-title{
+    @apply font-opensans text-lg md:text-2xl font-bold ml-0 mr-auto my-auto pr-3;
   }
 }
 

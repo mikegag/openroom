@@ -38,6 +38,15 @@ export default function NewApplicationForm(props){
     let maxLength = formData.licenseNumber.includes('-') ? 17 : 15;
     let minLength = formData.licenseNumber.includes('-')===true ? 17 : 15;
 
+    // Validates postal code input based on required format
+    function validatePostalCode(){
+        // Regex for LNLNLN format
+        const regex = /^[A-Za-z]\d[A-Za-z]\d[A-Za-z]\d$/; 
+        if (!regex.test(formData.postalCode)) {
+            alert("Invalid Postal Code format! Please use the format: LNLNLN. N=number, L=letter");
+        }
+    };
+
     // Update form data on each input change
     function handleChange(e) {
         const { name, value } = e.target;
@@ -63,9 +72,9 @@ export default function NewApplicationForm(props){
     }
 
     return (
-        <form className="mx-auto mt-6 w-72 lg:w-5/12 flex flex-col items-start font-opensans" onSubmit={submitForm}>
+        <form className="mx-auto mt-6 w-80 md:w-6/12 flex flex-col items-start font-opensans" onSubmit={submitForm}>
             {/* First Name */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="firstname">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="firstname">
                 First Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -82,7 +91,7 @@ export default function NewApplicationForm(props){
             />
 
             {/* Middle Name */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="middlename">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="middlename">
                 Middle Name
             </label>
             <input
@@ -97,7 +106,7 @@ export default function NewApplicationForm(props){
             />
 
             {/* Last Name */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="lastname">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="lastname">
                 Last Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -114,7 +123,7 @@ export default function NewApplicationForm(props){
             />
 
             {/* Driver's License Number */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="licenseNumber">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="licenseNumber">
                 Ontario Driver's License Number <span className="text-red-500">*</span>
             </label>
             <input
@@ -136,7 +145,7 @@ export default function NewApplicationForm(props){
             <div className="rounded-2xl h-0.5 w-56 lg:w-72 bg-gray-200 mt-8 mb-2 mx-auto" role="presentation"></div>
 
             {/* Date of Birth */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="dob">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="dob">
                 Date of Birth <span className="text-red-500">*</span>
             </label>
             <input
@@ -153,7 +162,7 @@ export default function NewApplicationForm(props){
             {/* Sex and Height */}
             <div className="flex justify-center mb-2 w-full">
                 <div className="relative flex flex-col mr-auto ml-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="sex">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="sex">
                         Sex <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -163,7 +172,7 @@ export default function NewApplicationForm(props){
                         aria-required="true"
                         onChange={handleChange}
                         value={formData.sex}
-                        className="appearance-none w-56 pr-3 form-input"
+                        className="appearance-none w-36 lg:w-56 pr-3 form-input"
                     >
                         <option value="" hidden>Not specified</option>
                         <option value="male">Male</option>
@@ -177,7 +186,7 @@ export default function NewApplicationForm(props){
                     </span>
                 </div>
                 <div className="flex flex-col ml-auto mr-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="height">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="height">
                         Height (cm) <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -188,7 +197,7 @@ export default function NewApplicationForm(props){
                         aria-required="true"
                         onChange={handleChange}
                         value={formData.height}
-                        className="border p-3 w-56 form-input"
+                        className="border p-3 w-36 lg:w-56 form-input"
                         placeholder="Enter height in cm"
                     />
                 </div>
@@ -199,7 +208,7 @@ export default function NewApplicationForm(props){
             {/* Address Information */}
             <div className="flex justify-center mt-2 w-full">
                 <div className="flex flex-col mr-auto ml-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="unitNumber">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="unitNumber">
                         Unit Number
                     </label>
                     <input
@@ -209,12 +218,12 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.unitNumber}
-                        className="w-56 form-input"
+                        className="w-36 lg:w-56 form-input"
                         placeholder="Enter unit number"
                     />
                 </div>
                 <div className="flex flex-col ml-auto mr-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="streetNumber">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="streetNumber">
                         Street Number <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -226,14 +235,14 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.streetNumber}
-                        className="w-56 form-input"
+                        className="w-36 lg:w-56 form-input"
                         placeholder="Enter street number"
                     />
                 </div>
             </div>
 
             {/* PO Box */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="poBox">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="poBox">
                 PO Box
             </label>
             <input
@@ -248,7 +257,7 @@ export default function NewApplicationForm(props){
             />
 
             {/* Street Name */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="streetName">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="streetName">
                 Street Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -265,7 +274,7 @@ export default function NewApplicationForm(props){
             />
 
             {/* City */}
-            <label className="mt-3 mb-2 font-bold" htmlFor="city">
+            <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="city">
                 City <span className="text-red-500">*</span>
             </label>
             <input
@@ -284,7 +293,7 @@ export default function NewApplicationForm(props){
             <div className="flex justify-center w-full">
                 {/* Province */}
                 <div className="relative flex flex-col mb-2 mr-auto ml-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="province">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="province">
                         Province <span className="text-red-500">*</span>
                     </label>
                     <select
@@ -295,7 +304,7 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.province}
-                        className="appearance-none w-56 form-input"
+                        className="appearance-none w-36 lg:w-56 form-input"
                     >
                         {/* Province options */}
                         <option value="" hidden>Not specified</option>
@@ -321,7 +330,7 @@ export default function NewApplicationForm(props){
 
                 {/* Postal Code */}
                 <div className="flex flex-col mb-2 ml-auto mr-0">
-                    <label className="mt-3 mb-2 font-bold" htmlFor="postalCode">
+                    <label className="mt-3 mb-2 font-bold text-sm lg:text-base" htmlFor="postalCode">
                         Postal Code <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -333,10 +342,10 @@ export default function NewApplicationForm(props){
                         required
                         aria-required="true"
                         autoComplete="on"
-                        onBlur={handleChange}
+                        onBlur={validatePostalCode}
                         onChange={handleChange}
                         value={formData.postalCode}
-                        className="w-56 form-input"
+                        className="w-36 lg:w-56 form-input"
                         placeholder="e.g., A1A1A1"
                     />
                 </div>

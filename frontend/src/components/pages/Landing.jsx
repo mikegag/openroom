@@ -36,7 +36,7 @@ export default function Landing() {
         <div className="flex flex-col">
             <Header />
             <section className="border-b-2 border-black pb-5 mt-14 mb-6 flex">
-                <h1 className="font-opensans text-2xl font-bold ml-0 mr-auto my-auto">
+                <h1 className="main-title">
                     Ontario Driver's License Applications
                 </h1>
                 <MainButton type="new" />
