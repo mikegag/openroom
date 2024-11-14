@@ -15,7 +15,7 @@ export default function ApplicationPreview(props){
                                 ? `${props.firstname || ""} ${props.middlename || ""} ${props.lastname || ""}`.trim() || "not given"
                                 : "not given"
                         }
-                        </span>
+                        </span> 
                     </p>
                     {props.submitted !== "" ?
                         <p className="rounded-xl bg-light-purple py-1.5 px-6 mr-0 ml-auto text-sm font-bold font-opensans text-white">

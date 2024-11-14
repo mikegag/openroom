@@ -23,8 +23,11 @@ export default function NewApplication() {
         setIsSubmitting(true);
         axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
             .then(response => {
-                setIsSubmitted(true);
-                setLoadingConfirmation(false);
+                setTimeout(() => {
+                    setIsSubmitted(true);
+                    setLoadingConfirmation(false); 
+                }, 700);
+               
             })
             .catch(error => {
                 console.error("Form submission error", error);

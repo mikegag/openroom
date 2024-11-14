@@ -4,26 +4,6 @@ from typing import Optional
 # Application model based on Frontend form
 class Application(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    firstname: str
-    middlename: Optional[str] = None
-    lastname: str
-    started: str  
-    submitted: Optional[str] = None 
-    licenseNumber: str
-    dob: str 
-    sex: str
-    height: int
-    poBox: Optional[str] = None
-    unitNumber: Optional[int] = None
-    streetNumber: int
-    streetName: str
-    city: str
-    province: str
-    postalCode: str
-
-# Partial Application model based on Frontend form
-class PartialApplication(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
     firstname: Optional[str] = Field(default=None) 
     middlename: Optional[str] = Field(default=None)
     lastname: Optional[str] = Field(default=None) 

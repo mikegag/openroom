@@ -28,7 +28,9 @@ export default function ViewApplication(){
         axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
             // Successfully submitted form
             .then(response => {
-                setIsSubmitted(true)
+                setTimeout(() => {
+                    setIsSubmitted(true)
+                }, 700);
             })
             // Error occurred during submission
             .catch(error => {

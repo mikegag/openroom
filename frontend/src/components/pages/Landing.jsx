@@ -49,11 +49,11 @@ export default function Landing() {
                             savedApplications.map((app, index) => (
                                 <div key={index}>
                                     <ApplicationPreview 
+                                        id={app.id}
                                         firstname={app.firstname}
                                         middlename={app.middlename}
                                         lastname={app.lastname}
                                         licenseNumber={app.licenseNumber}
-                                        id={app.id}
                                         started={app.started}
                                         submitted={app.submitted}
                                     />
