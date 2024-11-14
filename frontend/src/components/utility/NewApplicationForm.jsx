@@ -75,7 +75,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 value={formData.firstname}
                 onChange={handleChange}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter your First Name"
                 required
                 aria-required="true"
@@ -92,7 +92,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 onChange={handleChange}
                 value={formData.middlename}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter your Middle Name"
             />
 
@@ -107,7 +107,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 onChange={handleChange}
                 value={formData.lastname}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter your Last Name"
                 required
                 aria-required="true"
@@ -127,7 +127,7 @@ export default function NewApplicationForm(props){
                 onBlur={handleChange}
                 onChange={handleChange}
                 value={formData.licenseNumber}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="e.g. G1234-45674-67890"
                 required
                 aria-required="true"
@@ -145,7 +145,7 @@ export default function NewApplicationForm(props){
                 id="dob"
                 onChange={handleChange}
                 value={formData.dob}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 required
                 aria-required="true"
             />
@@ -163,7 +163,7 @@ export default function NewApplicationForm(props){
                         aria-required="true"
                         onChange={handleChange}
                         value={formData.sex}
-                        className="appearance-none border p-3 w-56 pr-3 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="appearance-none w-56 pr-3 form-input"
                     >
                         <option value="" hidden>Not specified</option>
                         <option value="male">Male</option>
@@ -188,7 +188,7 @@ export default function NewApplicationForm(props){
                         aria-required="true"
                         onChange={handleChange}
                         value={formData.height}
-                        className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="border p-3 w-56 form-input"
                         placeholder="Enter height in cm"
                     />
                 </div>
@@ -209,7 +209,7 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.unitNumber}
-                        className="border p-3 rounded-lg w-56 cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="w-56 form-input"
                         placeholder="Enter unit number"
                     />
                 </div>
@@ -226,7 +226,7 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.streetNumber}
-                        className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="w-56 form-input"
                         placeholder="Enter street number"
                     />
                 </div>
@@ -243,7 +243,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 onChange={handleChange}
                 value={formData.poBox}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter PO Box"
             />
 
@@ -260,7 +260,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 onChange={handleChange}
                 value={formData.streetName}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter street name"
             />
 
@@ -277,7 +277,7 @@ export default function NewApplicationForm(props){
                 autoComplete="on"
                 onChange={handleChange}
                 value={formData.city}
-                className="border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                className="form-input"
                 placeholder="Enter city"
             />
 
@@ -295,7 +295,7 @@ export default function NewApplicationForm(props){
                         autoComplete="on"
                         onChange={handleChange}
                         value={formData.province}
-                        className="appearance-none border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="appearance-none w-56 form-input"
                     >
                         {/* Province options */}
                         <option value="" hidden>Not specified</option>
@@ -336,7 +336,7 @@ export default function NewApplicationForm(props){
                         onBlur={handleChange}
                         onChange={handleChange}
                         value={formData.postalCode}
-                        className="border p-3 w-56 rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple"
+                        className="w-56 form-input"
                         placeholder="e.g., A1A1A1"
                     />
                 </div>

@@ -20,6 +20,9 @@ body {
     @apply rounded-lg px-4 py-1.5 bg-main-purple hover:bg-dark-purple text-white 
       font-bold font-opensans tracking-wide cursor-pointer;
   }
+  .form-input{
+    @apply border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple;
+  }
 }
 
 @layer utilities {

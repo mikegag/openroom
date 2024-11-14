@@ -10,30 +10,6 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-# from pydantic import BaseModel
-# from typing import Optional
-
-# class ApplicationResponse(BaseModel):
-#     id: int
-#     firstname: Optional[str] = None 
-#     middlename: Optional[str] = None
-#     lastname: Optional[str] = None 
-#     started: Optional[str] = None 
-#     submitted: Optional[str] = None
-#     licenseNumber: Optional[str] = None 
-#     dob: Optional[str] = None 
-#     sex: Optional[str] = None 
-#     height: Optional[int] = None
-#     poBox: Optional[str] = None
-#     unitNumber: Optional[int] = None
-#     streetNumber: Optional[int] = None 
-#     streetName: Optional[str] = None 
-#     city: Optional[str] = None 
-#     province: Optional[str] = None 
-#     postalCode: Optional[str] = None 
-
-#     class Config:
-#         from_attributes = True
 
 # 1. Endpoint to return all existing applications as a list
 @router.get("/dashboard", response_model=List[Application])
@@ -89,7 +65,7 @@ def save_partial_application(application: Application, session: Session = Depend
 
 '''
 (generic notes)
-Endpoint Setup:
+Endpoint Setup Example:
 
 Use @app.get("/path/") to define the endpoint and specify its URL path.
 Set response_model=List[Model] to indicate that the endpoint will return a list of entries in a specified model (Model).
