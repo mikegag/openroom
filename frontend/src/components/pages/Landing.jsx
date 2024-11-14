@@ -15,7 +15,7 @@ export default function Landing() {
     useEffect(() => {
         document.title = "Openroom - Dashboard";
 
-        // Start loading when making the API request
+        // API request to fetch saved applications
         axios.get('http://127.0.0.1:8000/dashboard', { withCredentials: true })
             .then(response => {
                 setSavedApplications(response.data);
@@ -25,7 +25,10 @@ export default function Landing() {
             })
             .finally(() => {
                 // Stop loading once data is fetched
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+                
             });
     }, []);
 
@@ -40,8 +43,8 @@ export default function Landing() {
             </section>
 
             <section className={`${savedApplications.length > 0 ? "results-section" : ""} min-h-96`}>
-                {/* Conditionally render LoadingAnimation or applications */}
-                <Suspense fallback={<div>Loading...</div>}>
+                {/* Conditionally render LoadingAnimation or applications during API call */}
+                <Suspense>
                     {loading ? (
                         <LoadingAnimation />
                     ) : (

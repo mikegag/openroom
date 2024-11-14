@@ -12,6 +12,7 @@ import Footer from "../utility/Footer";
 const LoadingAnimation = React.lazy(() => import("../utility/LoadingAnimation"));
 
 export default function ViewApplication(){
+    // Application id taken from url
     const { id } = useParams();
     const [applicationDetails, setApplicationDetails] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -24,19 +25,23 @@ export default function ViewApplication(){
 
     // Prop passed to ApplicationForm child to confirm submission
     function handleSubmit(data){
-        setIsSubmitting(true);
-        axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
+        setTimeout(() => {
+            setIsSubmitting(true);
+        }, 500);
+        // Include `id` if available to update existing application, otherwise leave it out
+        const applicationData = {
+            ...data,
+            id: id || null  // If `data` has an `id`, use it; otherwise set it to `null`
+        };
+        axios.post('http://127.0.0.1:8000/dashboard/new-application', applicationData)
             // Successfully submitted form
             .then(response => {
-                setTimeout(() => {
-                    setIsSubmitted(true)
-                }, 700);
+                setIsSubmitted(true);
             })
             // Error occurred during submission
             .catch(error => {
                 console.error("Form submission error", error);
             });
-            
     }
 
     // Fetch application details using the applicationId from the URL
@@ -51,7 +56,9 @@ export default function ViewApplication(){
             })
             .finally(() => {
                 // Stop loading once data is fetched
-                setLoadingDetails(false);
+                setTimeout(() => {
+                    setLoadingDetails(false);
+                }, 500);
             });
         }
       }, [id])

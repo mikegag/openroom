@@ -18,15 +18,16 @@ export default function NewApplication() {
         document.title = "Openroom - New Application";
     }, []);
 
-    // Prop passed to NewApplicationForm child to confirm submission
+    // Prop passed to NewApplicationForm child to confirm submission state
     function handleSubmit(data) {
         setIsSubmitting(true);
         axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
             .then(response => {
+                // Display loading animation before confirming API request success
                 setTimeout(() => {
                     setIsSubmitted(true);
                     setLoadingConfirmation(false); 
-                }, 700);
+                }, 500);
                
             })
             .catch(error => {
@@ -45,12 +46,11 @@ export default function NewApplication() {
             // Validate form data before sending it to server
             const validatedData = validateFormData(data)
             // Trigger API to save in-progress form attempts
-            axios
-            .post('http://127.0.0.1:8000/dashboard/partial-application', validatedData, { withCredentials: true })
-            .then(response => {})
-            .catch(error => {
-                // Handle error during submission
-                console.error('Form submission error:', error);
+            axios.post('http://127.0.0.1:8000/dashboard/partial-application', validatedData, { withCredentials: true })
+                .then(response => {})
+                .catch(error => {
+                    // Handle error during submission
+                    console.error('Form submission error:', error);
             });
         } else {
           console.log('No form data found in localStorage.');

@@ -3,6 +3,8 @@ import validateFormData from "./ValidateFormData";
 import GetCurrentDate from "./GetCurrentDate";
 
 export default function NewApplicationForm(props){
+    // Determines if form has been submitted enables/disables submit btn functionality
+    const [isSubmitting, setIsSubmitting] = useState(false)
     // Initialize formData with either savedData (if provided) or default values
     const [formData, setFormData] = useState({
         firstname: props.savedData?.firstname || "",
@@ -30,7 +32,7 @@ export default function NewApplicationForm(props){
         if (savedData) {
           setFormData(savedData);
         }
-      }, [])
+    }, [])
 
     // Define dynamic maxLength and minLength based on input
     let maxLength = formData.licenseNumber.includes('-') ? 17 : 15;
@@ -52,10 +54,12 @@ export default function NewApplicationForm(props){
         e.preventDefault();
         // Validate and sanitize form data
         const validatedData = validateFormData(formData);
-        // Update parent with submission data
+        // Update parent (NewApplication) with submission data
         props.onSubmit(validatedData);
         // Clear localStorage after submission
         localStorage.removeItem("formData");
+        // Disable submit button to prevent unnecessary API calls
+        setIsSubmitting(true)
     }
 
     return (
@@ -342,6 +346,7 @@ export default function NewApplicationForm(props){
                 type="submit"
                 className="p-3.5 w-full rounded-lg tracking-wide cursor-pointer bg-main-purple text-white font-bold mt-8 hover:bg-dark-purple"
                 aria-label="submission for driver license application form"
+                disabled={isSubmitting}
             >
                 Submit
             </button>
