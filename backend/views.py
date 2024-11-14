@@ -10,12 +10,43 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
+from pydantic import BaseModel
+from typing import Optional
+
+class ApplicationResponse(BaseModel):
+    id: int
+    firstname: Optional[str] = None 
+    middlename: Optional[str] = None
+    lastname: Optional[str] = None 
+    started: Optional[str] = None 
+    submitted: Optional[str] = None
+    licenseNumber: Optional[str] = None 
+    dob: Optional[str] = None 
+    sex: Optional[str] = None 
+    height: Optional[int] = None
+    poBox: Optional[str] = None
+    unitNumber: Optional[int] = None
+    streetNumber: Optional[int] = None 
+    streetName: Optional[str] = None 
+    city: Optional[str] = None 
+    province: Optional[str] = None 
+    postalCode: Optional[str] = None 
+
+    class Config:
+        from_attributes = True
+
 # 1. Endpoint to return all existing applications as a list
-@router.get("/dashboard", response_model=List[Application])
-def get_all_applications(session: Session = Depends(get_session)) -> List[Optional[Application]]:
+@router.get("/dashboard", response_model=List[ApplicationResponse])
+def get_all_applications(session: Session = Depends(get_session)) -> List[Optional[ApplicationResponse]]:
     result = session.execute(select(Application)) 
     applications = result.scalars().all()
-    return applications
+    partial_result = session.execute(select(PartialApplication))
+    partial_applications = partial_result.scalars().all()
+
+    # Combine both lists (applications and partial_applications)
+    all_applications = applications + partial_applications
+
+    return all_applications
 
 # 2. Endpoint to return a specific application with a matching id
 @router.get("/dashboard/view-application/{id}", response_model=Application)
@@ -67,24 +98,5 @@ Returning the Result:
 
 return items returns the list of entries.
 FastAPI automatically converts the response to JSON format.
-
-Pydantic model for request body validation
-class ApplicationCreate(BaseModel):
-    firstname: str
-    middlename: Optional[str]
-    lastname: str
-    started: str
-    submitted: Optional[str]
-    licenseNumber: str
-    dob: str
-    sex: str
-    height: int
-    poBox: Optional[str]
-    unitNumber: Optional[int]
-    streetNumber: int
-    streetName: str
-    city: str
-    province: str
-    postalCode: str
 
 '''

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
+import validateFormData from "../utility/ValidateFormData";
 import Header from "../utility/Header";
 import MainButton from "../utility/MainButton";
 import NewApplicationForm from "../utility/NewApplicationForm";
@@ -17,7 +18,7 @@ export default function NewApplication() {
         document.title = "Openroom - New Application";
     }, []);
 
-    // Prop passed to ApplicationForm child to confirm submission
+    // Prop passed to NewApplicationForm child to confirm submission
     function handleSubmit(data) {
         setIsSubmitting(true);
         axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
@@ -36,16 +37,17 @@ export default function NewApplication() {
         const savedData = localStorage.getItem("formData");
       
         if (savedData) {
-          // Parse the stored JSON string into an object
-          const data = JSON.parse(savedData);
-      
-          // Trigger API to save in-progress form attempts
-          axios
-            .post('http://127.0.0.1:8000/dashboard/partial-application', data, { withCredentials: true })
+            // Parse the stored JSON string into an object
+            const data = JSON.parse(savedData);
+            // Validate form data before sending it to server
+            const validatedData = validateFormData(data)
+            // Trigger API to save in-progress form attempts
+            axios
+            .post('http://127.0.0.1:8000/dashboard/partial-application', validatedData, { withCredentials: true })
             .then(response => {})
             .catch(error => {
-              // Handle error during submission
-              console.error('Form submission error:', error);
+                // Handle error during submission
+                console.error('Form submission error:', error);
             });
         } else {
           console.log('No form data found in localStorage.');

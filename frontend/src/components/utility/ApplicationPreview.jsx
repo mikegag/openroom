@@ -10,9 +10,10 @@ export default function ApplicationPreview(props){
                     <p className="font-bold ml-0 mr-auto">
                         Full Name:
                         <span className="font-normal ml-2">
-                        {props.firstname && props.lastname !== "" 
-                            ? props.firstname + (props.middlename ? " " + props.middlename : "") + " " + props.lastname 
-                            : "not given"
+                        {
+                            props.firstname || props.middlename || props.lastname
+                                ? `${props.firstname || ""} ${props.middlename || ""} ${props.lastname || ""}`.trim() || "not given"
+                                : "not given"
                         }
                         </span>
                     </p>
