@@ -15,13 +15,13 @@ export default function ViewApplication(){
     // Application id taken from url
     const { id } = useParams();
     const [applicationDetails, setApplicationDetails] = useState(null);
-    const [isSubmitted, setIsSubmitted] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [loadingDetails, setLoadingDetails] = useState(true);
 
     useEffect(() => {
         document.title = "Openroom - View Application"
-    }, [])
+    }, []);
 
     // Prop passed to ApplicationForm child to confirm submission
     function handleSubmit(data){
@@ -31,9 +31,12 @@ export default function ViewApplication(){
         // Include `id` if available to update existing application, otherwise leave it out
         const applicationData = {
             ...data,
-            id: id || null  // If `data` has an `id`, use it; otherwise set it to `null`
+            id: parseInt(id) || null 
         };
-        axios.post('http://127.0.0.1:8000/dashboard/new-application', applicationData)
+        axios.post('http://127.0.0.1:8000/dashboard/new-application', 
+            applicationData, 
+            {withCredentials: true}
+        )
             // Successfully submitted form
             .then(response => {
                 setIsSubmitted(true);
@@ -61,7 +64,7 @@ export default function ViewApplication(){
                 }, 500);
             });
         }
-      }, [id])
+      }, [id]);
 
     return (
         <div className="flex flex-col">

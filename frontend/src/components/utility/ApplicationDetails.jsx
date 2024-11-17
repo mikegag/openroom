@@ -2,7 +2,7 @@ import React from "react";
 import Data from "../../data.json";
 
 export default function ApplicationDetails(props){
-    const dataSchema = Data
+    const dataSchema = Data;
     return (
         <section className="mt-6 bg-light-grey rounded-lg w-full p-8 text-sm lg:text-base">
             <div className="flex">
@@ -32,5 +32,5 @@ export default function ApplicationDetails(props){
                 ))}
             </div>   
         </section>
-    )
+    );
 }

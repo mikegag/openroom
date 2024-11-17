@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 export default function ApplicationPreview(props){
-    const navigate = useNavigate()
+
     return (
-        <a className="cursor-pointer" onClick={()=>navigate(`./view-application/${props.id}`)}>
+        <Link className="cursor-pointer" to={`./view-application/${props.id}`}>
             <article className="my-5 py-2 px-4 lg:py-4 lg:px-8 rounded-lg border bg-white font-opensans hover:bg-light-grey">
                 <div className="flex my-3 text-sm lg:text-base">
                     <p className="font-bold ml-0 mr-auto pr-5">
@@ -42,6 +42,6 @@ export default function ApplicationPreview(props){
                     </p>
                 </div>
             </article>
-        </a>
+        </Link>
     )
 }

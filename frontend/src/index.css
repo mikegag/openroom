@@ -24,7 +24,7 @@ body {
     @apply border p-3 w-full rounded-lg cursor-pointer focus:outline-1 focus:outline-light-purple;
   }
   .main-title{
-    @apply font-opensans text-lg md:text-2xl font-bold ml-0 mr-auto my-auto pr-3;
+    @apply font-opensans text-lg md:text-2xl font-bold ml-0 mr-auto my-auto pr-4;
   }
 }
 

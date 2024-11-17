@@ -24,14 +24,16 @@ export default function NewApplication() {
     // Prop passed to NewApplicationForm child to confirm submission state
     function handleSubmit(data) {
         setIsSubmitting(true);
-        axios.post('http://127.0.0.1:8000/dashboard/new-application', data)
+        axios.post('http://127.0.0.1:8000/dashboard/new-application', 
+            data, 
+            {withCredentials: true}
+        )
             .then(response => {
                 // Display loading animation before confirming API request success
                 setTimeout(() => {
                     setIsSubmitted(true);
                     setLoadingConfirmation(false); 
                 }, 500);
-               
             })
             .catch(error => {
                 console.error("Form submission error", error);
@@ -46,7 +48,7 @@ export default function NewApplication() {
             // Parse the stored JSON string into an object
             const data = JSON.parse(savedData);
             // Validate form data before sending it to server
-            const validatedData = validateFormData(data)
+            const validatedData = validateFormData(data);
             // Trigger API to save in-progress form attempts
             axios.post('http://127.0.0.1:8000/dashboard/partial-application', validatedData, { withCredentials: true })
                 .then(response => {
