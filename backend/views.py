@@ -26,7 +26,7 @@ def get_application_by_id(id: int, session: Session = Depends(get_session)) -> A
         return application
     
     # If neither is found, raise a 404 error
-    raise HTTPException(status_code=404, detail="Application or PartialApplication not found")
+    raise HTTPException(status_code=404, detail="Application or Partial Application not found")
 
 # 3. Endpoint to create a new application and set the submitted field with the current date
 @router.post("/dashboard/new-application", response_model=Application)
