@@ -46,7 +46,7 @@ export default function NewApplicationForm(props){
             alert("Invalid Postal Code format! Please use the format: LNLNLN. N=number, L=letter");
         }
     };
-
+    
     // Update form data on each input change
     function handleChange(e) {
         const { name, value } = e.target;
